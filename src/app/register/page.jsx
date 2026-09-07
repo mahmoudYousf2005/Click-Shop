@@ -3,49 +3,57 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { supabase } from "@/lib/supabase";
-const page = () => {
+const Page = () => {
   const router = useRouter();
   const [formData, setFormData] = useState({ name: "", email: "", password: "" });
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
-  // const handleChange = (e) => {
-  //   setFormData({ ...formData, [e.target.name]: e.target.value });
-  // };
-
+  
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
-    if(!formData.email || !formData.password){
-      alert("ادخل الاميل و الباسورد")
+    setError("")
+
+    if( !formData.name||!formData.email || !formData.password){
+      setError(" الرجاء اكمال البيانات")
       return
     }
 
-    const {error , data} = await supabase.auth.signUp({
+    setLoading(true)
+
+    const {error : signUpError} = await supabase.auth.signUp({
+      options: {
+        data: {
+          name: formData.name,
+        },
+      },
       email: formData.email ,
       password: formData.password ,
     })
-    if(error){
-      console.error("Error SignUp" , error.message)
+    setLoading(false)
+
+    if( signUpError ){
+     setError(getErrorMessage(signUpError.message));
       return
-    }else{
-      alert("تم انشاء حساب")
     }
+    // else{
+    //   alert("تم انشاء حساب")
+    // }
     router.push("/signIn")
   };
 
-  // const getErrorMessage = (code) => {
-  //   switch (code) {
-  //     case "auth/email-already-in-use":
-  //       return "الإيميل ده مسجل بالفعل";
-  //     case "auth/weak-password":
-  //       return "كلمة السر ضعيفة، لازم تكون 6 حروف على الأقل";
-  //     case "auth/invalid-email":
-  //       return "الإيميل غير صحيح";
-  //     default:
-  //       return "حصل خطأ، حاول تاني";
-  //   }
-  // };
+  const getErrorMessage = (message) => {
+    if (message.includes("already registered")) {
+      return "الإيميل ده مسجل بالفعل";
+    }
+    if (message.includes("Password should be at least")) {
+      return "كلمة السر ضعيفة، لازم تكون 6 حروف على الأقل";
+    }
+    if (message.includes("Unable to validate email")) {
+      return "الإيميل غير صحيح";
+    }
+    return "حصل خطأ، حاول تاني";
+  };
 
   return (
     <div className="container mx-auto flex items-center justify-center min-h-[70vh] px-4">
@@ -55,7 +63,7 @@ const page = () => {
           سجّل عشان تقدر تتابع طلباتك ومفضلتك
         </p>
 
-        <form onSubmit={handleSubmit} className="space-y-4">
+        <form onSubmit={handleSubmit} noValidate  className="space-y-4">
           <div>
             <label className="text-sm font-medium block mb-1">الاسم</label>
             <input
@@ -106,7 +114,7 @@ const page = () => {
 
         <p className="text-center text-sm text-gray-500 mt-6">
           عندك حساب بالفعل؟{" "}
-          <Link href={"signIn"} className="text-orange-500 font-medium">
+          <Link href={"/signIn"} className="text-orange-500 font-medium">
             سجّل دخول
           </Link>
         </p>
@@ -115,4 +123,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;

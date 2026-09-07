@@ -4,7 +4,7 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { supabase } from "@/lib/supabase";
 
-const page = () => {
+const Page = () => {
   const router = useRouter();
   const [formData, setFormData] = useState({ email: "", password: "" });
   const [error, setError] = useState("");
@@ -111,4 +111,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;

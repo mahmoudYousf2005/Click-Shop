@@ -1,7 +1,7 @@
 
 "use client";
 
-import { createContext, useContext, useEffect, useState } from "react";
+import { createContext, useCallback, useContext, useEffect, useState } from "react";
 import { supabase } from "@/lib/supabase";
 import { useAuth } from "../register/AuthContext";
 
@@ -12,26 +12,26 @@ export const CartProvider = ({ children }) => {
   const [cart, setCart] = useState([]);
 
   // 🟢 تحميل الكارت من الداتابيز
-  const fetchCart = async () => {
-    if (!user) return;
+  const fetchCart = useCallback(async () => {
+  if (!user) return;
 
-    const { data, error } = await supabase
-      .from("cart")
-      .select("*")
-      .eq("user_id", user.id);
+  const { data, error } = await supabase
+    .from("cart")
+    .select("*")
+    .eq("user_id", user.id);
 
-    if (error) {
-      console.error("error Fetch data " , error.message)
-    }
-    setCart(data);
+  if (error) {
+    console.error("error Fetch data ", error.message);
+    return;
+  }
+  setCart(data);
+}, [user]);
 
-
-  };
-
-  useEffect(() => {
-    fetchCart();
-  }, [user]);
-
+ useEffect(() => {
+  // نمط "هات البيانات لما user يتغيّر" ده معتمد رسميًا من توثيق React
+  // eslint-disable-next-line react-hooks/set-state-in-effect
+  fetchCart();
+}, [fetchCart]);
   // 🟢 إضافة منتج
   const addToCart = async (product) => {
     if (!user) {
@@ -66,24 +66,6 @@ export const CartProvider = ({ children }) => {
   };
 
 
-//   const removeFromCart = async (id) => {
-//     const prevCart = cart 
-//     setCart((prev) =>
-//     prevCart.filter((item) => item.id !== id)
-//   );
-//   const { error } = await supabase
-//     .from("cart")
-//     .delete()
-//     .eq("id", id);
-
-//   if (error) {
-//     console.error("Error deleting:", error.message);
-//     setCart(prevCart)
-//     return;
-//   }else{
-//     fetchCart()
-//   }
-// };
 const removeFromCart = async (id) => {
   // تحديث فوري في الواجهة (Optimistic Update)
   const prevCart = cart;

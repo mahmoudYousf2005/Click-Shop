@@ -3,7 +3,7 @@
 import { useWishlist } from "./WishlistContext"
 import ProductCard from "../products/ProductCard";
 
-const page = () => {
+const Page = () => {
   const { wishlist } = useWishlist();
 
   if (wishlist.length === 0) {
@@ -30,4 +30,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;

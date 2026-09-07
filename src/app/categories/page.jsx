@@ -55,7 +55,10 @@ const page = async() => {
                  {filterCategory.map((item,index)=>(
                       <div key={item.id} className="border border-gray-200 rounded-xl p-8 shadow-lg">
                           <div className="flex justify-center  cursor-pointer">
-                              <Image className= {`${colors[index % colors.length].color} w-40 mb-4 rounded-full p-1 hover:scale-125 transition-all`}  src={item?.thumbnail} width={0} height={0} unoptimized/>
+                              <Image 
+                              alt={item.category}
+                              className= {`${colors[index % colors.length].color} w-40 mb-4 rounded-full p-1 hover:scale-125 transition-all`}
+                                src={item?.thumbnail} width={0} height={0} unoptimized/>
                           </div>
                           <h1 className="text-lg font-bold">{item?.category}</h1>
                           <h1 className="text-gray-500">{item?.category.length -1} Products</h1>

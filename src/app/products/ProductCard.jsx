@@ -1,5 +1,7 @@
 
 "use client";
+import Link from "next/link";
+import Image from "next/image";
 import { Heart, ShoppingCart, Star } from "lucide-react";
 import StarRating from "../components/StarRating";
 import { useWishlist } from "../wishlist/WishlistContext";
@@ -21,17 +23,20 @@ const ProductCard = ({ product }) => {
           }`}
         />
       </button>
+        <Link href={`/products/${product.id}`}>
+        <div className=" relative aspect-square mb-3 flex items-center justify-center bg-gray-50 rounded">
+          <Image
+            src={product.thumbnail}
+            alt={product.title}
+            fill
+            sizes="(max-width: 768px) 50vw, 25vw"
+            className="object-contain p-2"
+          />
+        </div>
 
-      <div className="aspect-square mb-3 flex items-center justify-center bg-gray-50 rounded">
-        <img
-          src={product.thumbnail}
-          alt={product.title}
-          className="max-h-full max-w-full object-contain"
-        />
-      </div>
-
-      <p className="text-sm text-gray-500 capitalize">{product.category}</p>
-      <h3 className="font-semibold text-gray-900 truncate">{product.title}</h3>
+        <p className="text-sm text-gray-500 capitalize">{product.category}</p>
+        <h3 className="font-semibold text-gray-900 truncate">{product.title}</h3>
+      </Link>
 
       <div className="flex items-center gap-1 my-1">
         <Star className="w-4 h-4 fill-orange-400 text-orange-400" />

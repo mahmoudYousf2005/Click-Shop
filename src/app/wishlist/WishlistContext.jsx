@@ -10,7 +10,9 @@ export const WishlistProvider = ({ children }) => {
 
   useEffect(() => {
     const stored = localStorage.getItem("wishlist");
+     // (external system سنكرونة، نفس منطق ContextCart.jsx)
     if (stored) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setWishlist(JSON.parse(stored));
     }
   }, []);

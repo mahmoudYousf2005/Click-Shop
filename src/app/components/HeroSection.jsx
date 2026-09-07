@@ -3,7 +3,7 @@ import Link from "next/link";
 import heroo from "../imgs/heroo.jpeg"
 const HeroSection = () => {
   return (
-    <div className="container mx-auto mt-2 w-full h-[450px]  relative">
+    <div className="container mx-auto mt-2 w-full h-112.5 relative">
       
       
         <Image className=" rounded-xl h-full " alt="hero" src={heroo}/>

@@ -8,7 +8,7 @@ import { useCart } from "./ContextCart";
 import CartItem from "./CartItem";
 import { supabase } from "@/lib/supabase";
 import { useState , useEffect } from "react";
-const page = () => {
+const Page = () => {
   
   const { cart, cartTotal } = useCart();
   
@@ -92,4 +92,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;

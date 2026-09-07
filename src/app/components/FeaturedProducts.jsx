@@ -42,7 +42,7 @@ const FeaturedProducts = () => {
               key={item.id}
               className="relative border border-gray-200 rounded-xl p-6 hover:scale-105 transition-all shadow-lg"
             >
-              <div className="flex justify-center cursor-pointer">
+              <div className="relative flex justify-center cursor-pointer">
                 <Image
                   className="w-40 mb-4 rounded-full p-1"
                   src={item?.thumbnail}
