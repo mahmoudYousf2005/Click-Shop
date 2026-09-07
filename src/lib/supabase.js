@@ -1,6 +1,12 @@
 import { createClient } from "@supabase/supabase-js";
 
-export const supabase = createClient(
-    "https://enqmjrjuwzdbmemktlfp.supabase.co",
-    "sb_publishable_42j3jfJOTAZsd-pTbyZF4w_1EXfC_1R"
-)
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+
+if (!supabaseUrl || !supabaseAnonKey) {
+  throw new Error(
+    "Missing Supabase env vars: تأكد إن NEXT_PUBLIC_SUPABASE_URL و NEXT_PUBLIC_SUPABASE_ANON_KEY متعرّفين في .env.local"
+  );
+}
+
+export const supabase = createClient(supabaseUrl, supabaseAnonKey)
