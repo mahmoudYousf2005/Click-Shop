@@ -70,11 +70,11 @@ const Navbar = () => {
                 <IoSearch  className=" absolute right-2 text-gray-500"/>
             </div>
             <div className="flex items-center gap-4 text-2xl">
-               <Link href={"/wishlist"} className=" relative cursor-pointer">
+               <Link href={"/wishlist"} aria-label="المفضلة"  className=" relative cursor-pointer">
                     <CiHeart />
                     <span className=" absolute top-0  -right-2 text-sm">{wishlist.length}</span>
                 </Link>
-                <Link href={"/cart"} className=" relative cursor-pointer">
+                <Link href={"/cart"} aria-label="سلة المشتريات" className=" relative cursor-pointer">
                     <TiShoppingCart />
                     <span className=" absolute top-0  -right-2 text-sm">{cart.length}</span>
                 </Link>
@@ -84,18 +84,21 @@ const Navbar = () => {
                     <div className="flex items-center gap-1.5 text-base font-semibold">
                     <span>{user.user_metadata?.name || user.email}</span>
                     </div>
-                    <button onClick={handleLogout} title="تسجيل الخروج" className="text-lg cursor-pointer">
+                    <button onClick={handleLogout} title="تسجيل الخروج"
+                     aria-label="تسجيل الخروج"
+                     className="text-lg cursor-pointer">
                     <LogOut className="w-5 h-5 text-gray-500 hover:text-red-500" />
                     </button>
                 </div>
                 ) : (
-                <Link href={"/register"} className="cursor-pointer">
+                <Link href={"/register"} aria-label="تسجيل الدخول" className="cursor-pointer">
                     <CiUser />
                 </Link>
                 )}
 
-                 <button className="md:hidden" 
-                onClick={()=> setOpen(!open)}
+                <button className="md:hidden" 
+                    aria-label={open ? "إغلاق القائمة" : "فتح القائمة"}
+                    onClick={()=> setOpen(!open)}
                 >
                     {open ? <IoClose /> : <CiMenuBurger />}
                 </button>
@@ -104,9 +107,6 @@ const Navbar = () => {
 
         </div>
         {/*== Search ==*/}
-
-           
-
 
 
          {/* Links */}

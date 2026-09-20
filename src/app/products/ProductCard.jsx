@@ -1,4 +1,3 @@
-
 "use client";
 import Link from "next/link";
 import Image from "next/image";
@@ -13,9 +12,11 @@ const ProductCard = ({ product }) => {
 
   return (
     <div className="border border-gray-100 rounded-lg p-4 relative hover:shadow-md transition-shadow">
+        
       <button
         onClick={() => toggleWishlist(product)}
         className="absolute top-4 right-4 z-10"
+          aria-label={isFavorite ? "إزالة من المفضلة" : "إضافة للمفضلة"}
       >
         <Heart
           className={`w-5 h-5 transition-colors ${

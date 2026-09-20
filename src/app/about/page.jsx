@@ -1,6 +1,14 @@
 import { Truck, ShieldCheck, Headphones, Award } from "lucide-react";
+import { supabase } from "@/lib/supabase";
+import Image from "next/image";
+const AboutPage = async () => {
 
-const AboutPage = () => {
+  const {data , error} = await supabase.from("products").select("*")
+  if(error){
+    console.error("select data" , error.message)
+  }
+  
+
   return (
     <div className="container mx-auto">
       {/* Header */}
@@ -76,6 +84,13 @@ const AboutPage = () => {
           <p className="text-gray-600 text-sm mt-1">دعم فني</p>
         </div>
       </div>
+
+      {data?.map((item)=>(
+        <div key={item.id} className="">
+          <h1>{item.title}</h1>
+          {/* <Image src={item}/> */}
+        </div>
+      ))}
     </div>
   );
 };

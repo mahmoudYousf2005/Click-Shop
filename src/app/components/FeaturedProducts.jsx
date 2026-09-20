@@ -8,24 +8,41 @@ import StarRating from "./StarRating";
 import { useWishlist } from "../wishlist/WishlistContext";
 import { useEffect, useState } from "react";
 import { useCart } from "../cart/ContextCart";
+import { supabase } from "@/lib/supabase";
 
-const FeaturedProducts = () => {
-  const [data, setData] = useState(null);
+const FeaturedProducts =  () => {
+  const [products, setProducts] = useState(null);
   const { isInWishlist, toggleWishlist } = useWishlist();
   const { addToCart } = useCart()
-  useEffect(() => {
-    fetch("https://dummyjson.com/products?limit=0")
-      .then((res) => res.json())
-      .then((data) => setData(data));
-  }, []);
 
-  if (!data) return null;
+ 
 
-  const categories = [...new Set(data.products.map((p) => p.category))].slice(8, 16);
-  const filterProducts = categories.flatMap((category) => {
-    return data.products.filter((product) => product.category === category).slice(0, 1);
-  });
 
+  const getData = async ()=>{
+    const { data, error } = await supabase.from("products").select("*")
+    if(error){
+      console.error("Error Select Data" , error.message)
+      return
+    }
+    const categories = [...new Set (data.map((p)=> p.category))]
+    const filterCategory = categories.flatMap((category)=>{
+      return data.filter((prod)=>prod.category === category).splice(0,1)
+    })
+    setProducts(filterCategory )
+
+  }
+
+
+    
+
+  useEffect(()=>{
+    getData()
+  },[])
+
+
+  if(!products){
+    return <h1>No Products</h1>
+  }
   return (
     <div className="text-center my-8 container mx-auto">
       <h1 className="text-3xl font-bold">Featured Products</h1>
@@ -34,7 +51,8 @@ const FeaturedProducts = () => {
       </h2>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-10 mt-6 mx-auto p-6">
-        {filterProducts.map((item) => {
+       
+        {products.map((item) => {
           const isFavorite = isInWishlist(item.id); // ✅ هنا جوه الحلقة، لكل item لوحده
 
           return (
@@ -43,18 +61,15 @@ const FeaturedProducts = () => {
               className="relative border border-gray-200 rounded-xl p-6 hover:scale-105 transition-all shadow-lg"
             >
               <div className="relative flex justify-center cursor-pointer">
-                <Image
-                  className="w-40 mb-4 rounded-full p-1"
-                  src={item?.thumbnail}
-                  width={0}
-                  height={0}
+                <Image className="w-40 mb-4 object-contain rounded-full p-1"
+                  src={item?.thumbnail.trim()}
+                  width={0} height={0}
                   unoptimized
-                  alt="product img"
+                  alt="category img"                     
                 />
               </div>
-
               <Heart
-                onClick={() => toggleWishlist(item)} // ✅ item مش product
+                onClick={() => toggleWishlist(item)} 
                 className={`absolute top-4 right-4 text-2xl cursor-pointer ${
                   isFavorite ? "fill-red-500 text-red-500" : "text-gray-400 hover:text-red-500"
                 }`}

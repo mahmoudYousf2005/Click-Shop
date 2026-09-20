@@ -1,42 +1,33 @@
 
-import { notFound } from "next/navigation";
 import Link from "next/link";
 import StarRating from "../../components/StarRating"
 import ProductGallery from "./ProductGallery";
 import ProductActions from "./ProductActions";
 
-// بنمنع الكاش الزيادة عن اللزوم بتاع fetch عشان الأسعار/المخزون يفضلوا محدّثين
-async function getProduct(id) {
-  const res = await fetch(`https://dummyjson.com/products/${id}`, {
-    cache: "no-store",
-  });
+import { supabase } from "@/lib/supabase";
 
-  if (!res.ok) {
-    return null;
-  }
-
-  return res.json();
-}
-
-const ProductDetailPage = async ({ params }) => {
+const ProductDetails = async ({ params }) => {
   const { id } = await params;
-  const product = await getProduct(id);
 
-  if (!product || product.message) {
-    notFound();
+  const { data: product, error } = await supabase
+    .from("products")
+    .select("*")
+    .eq("id", id)
+    .single();   // 👈 عشان تجيب object واحد مش array
+
+  if (error || !product) {
+    return <div>المنتج غير موجود</div>;
   }
 
   const images =
     product.images && product.images.length > 0
     ? product.images 
     : [product.thumbnail];
-
-  const hasDiscount = product.discountPercentage > 0;
+     const hasDiscount = product.discountPercentage > 0;
   const oldPrice = hasDiscount
     ? (product.price / (1 - product.discountPercentage / 100)).toFixed(2)
     : null;
-
-  return (
+   return (
     <div className="container mx-auto px-4 py-8">
       {/* Breadcrumb */}
       <p className="text-sm text-gray-500 mb-6">
@@ -109,11 +100,11 @@ const ProductDetailPage = async ({ params }) => {
           {/* معلومات إضافية */}
           <div className="mt-8 border-t border-gray-100 pt-6 space-y-2 text-sm text-gray-500">
             {product.sku && <p>SKU: {product.sku}</p>}
-            {product.warrantyInformation && (
-              <p>Warranty: {product.warrantyInformation}</p>
+            {product.warranty && (
+              <p>Warranty: {product.warranty}</p>
             )}
-            {product.shippingInformation && (
-              <p>Shipping: {product.shippingInformation}</p>
+            {product.shipping && (
+              <p>Shipping: {product.shipping}</p>
             )}
             {product.returnPolicy && (
               <p>Return Polic: {product.returnPolicy}</p>
@@ -125,4 +116,4 @@ const ProductDetailPage = async ({ params }) => {
   );
 };
 
-export default ProductDetailPage;
+export default ProductDetails;

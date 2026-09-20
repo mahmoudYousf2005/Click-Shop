@@ -14,42 +14,84 @@ const Page = () => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  // const handleSubmit = async (e) => {
+  //   e.preventDefault();
     
-    if(!formData.email || ! formData.password){
-      getErrorMessage()
-      return
-    }
-    const {error , data} = await supabase.auth.signInWithPassword({
-        email: formData.email ,
-        password : formData.password
-    })
+  //   if(!formData.email || ! formData.password){
+  //     getErrorMessage()
+  //     return
+  //   }
+  //   const {error , data} = await supabase.auth.signInWithPassword({
+  //       email: formData.email ,
+  //       password : formData.password
+  //   })
 
-    if(error){
-      console.error("Error SignIn" , error.message)
-      return
-    }else{
-      alert("تم تسجيل الدخول")
-      router.push("/")
-    }
+  //   if(error){
+  //     console.error("Error SignIn" , error.message)
+  //     return
+  //   }else{
+  //     alert("تم تسجيل الدخول")
+  //     router.push("/")
+  //   }
   
-  };
+  // };
 
-  const getErrorMessage = (code) => {
-    switch (code) {
-      case "auth/invalid-credential":
-      case "auth/wrong-password":
-      case "auth/user-not-found":
-        return "الإيميل أو كلمة السر غلط";
-      case "auth/invalid-email":
-        return "الإيميل غير صحيح";
-      case "auth/too-many-requests":
-        return "محاولات كتير غلط، حاول تاني بعد شوية";
-      default:
-        return "حصل خطأ، حاول تاني";
-    }
-  };
+  const handleSubmit = async (e) => {
+  e.preventDefault();
+  setError("");
+
+  if (!formData.email || !formData.password) {
+    setError("الرجاء اكمال البيانات");
+    return;
+  }
+
+  setLoading(true);
+
+  const { error, data } = await supabase.auth.signInWithPassword({
+    email: formData.email,
+    password: formData.password,
+  });
+
+  if (error) {
+    setLoading(false);
+    setError(getErrorMessage(error.message));
+    return;
+  }
+
+  // هنا الجزء الجديد: نتحقق من الـ role
+  const { data: profile, error: profileError } = await supabase
+    .from("profiles")
+    .select("role")
+    .eq("id", data.user.id)
+    .single();
+
+  setLoading(false);
+
+  if (profileError) {
+    console.error("Error fetching profile", profileError.message);
+    router.push("/"); // لو حصل خطأ، وديه الصفحة الرئيسية على الأقل
+    return;
+  }
+
+  if (profile?.role === "admin") {
+    router.push("/dachpord");
+  } else {
+    router.push("/");
+  }
+};
+
+ const getErrorMessage = (message) => {
+  if (message.includes("Invalid login credentials")) {
+    return "الإيميل أو كلمة السر غلط";
+  }
+  if (message.includes("Email not confirmed")) {
+    return "لازم تأكد إيميلك الأول";
+  }
+  if (message.includes("too many requests") || message.includes("rate limit")) {
+    return "محاولات كتير غلط، حاول تاني بعد شوية";
+  }
+  return "حصل خطأ، حاول تاني";
+};
 
   return (
     <div className="container mx-auto flex items-center justify-center min-h-[70vh] px-4">
