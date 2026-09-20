@@ -36,6 +36,8 @@ const FeaturedProducts =  () => {
     
 
   useEffect(()=>{
+    // هات المنتجات المميزة أول ما الكومبوننت يفتح (نفس منطق ContextCart.jsx)
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     getData()
   },[])
 

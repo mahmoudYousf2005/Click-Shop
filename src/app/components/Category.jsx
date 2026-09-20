@@ -79,7 +79,7 @@ const Category = async () => {
                         <h1 key={index} className="text-gray-500">{item.count} Products</h1>
                     ))} */}
                     <h1>{categoriesCount[index]}</h1>
-                    <Link href={"products"}>
+                    <Link href={"/products"}>
                         <div className={`flex items-center justify-center gap-2 mt-2  cursor-pointer font-semibold text-lg ${colors[index % colors.length].text}`}>
                             <h1>Shop Now </h1>
                             <FaLongArrowAltRight />
