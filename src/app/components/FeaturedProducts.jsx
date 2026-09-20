@@ -62,21 +62,27 @@ const FeaturedProducts =  () => {
               key={item.id}
               className="relative border border-gray-200 rounded-xl p-6 hover:scale-105 transition-all shadow-lg"
             >
-              <div className="relative flex justify-center cursor-pointer">
-                <Image className="w-40 mb-4 object-contain rounded-full p-1"
-                  src={item?.thumbnail.trim()}
-                  fill
-                  sizes="160px"
-                  unoptimized
-                  alt={item?.title || "Product image"}                    
-                />
-              </div>
+            <div className="relative flex justify-center cursor-pointer w-40 h-40 mx-auto mb-4">
+                <Image className="object-contain rounded-full p-1"
+                src={item?.thumbnail.trim()}
+                fill
+                sizes="160px"
+                unoptimized
+                alt={item?.title || "Product image"}
+              />
+            </div>
+            <button
+              type="button"
+              onClick={() => toggleWishlist(item)}
+              aria-label={isFavorite ? "إزالة من المفضلة" : "إضافة للمفضلة"}
+              className="absolute top-4 right-4 z-10"
+            >
               <Heart
-                onClick={() => toggleWishlist(item)} 
-                className={`absolute top-4 right-4 text-2xl cursor-pointer ${
-                  isFavorite ? "fill-red-500 text-red-500" : "text-gray-400 hover:text-red-500"
+                className={`text-2xl cursor-pointer ${
+                isFavorite ? "fill-red-500 text-red-500" : "text-gray-400 hover:text-red-500"
                 }`}
               />
+              </button>
 
               <h2 className="absolute top-4 bg-red-500 text-white font-bold py-1 px-2 rounded-full">
                 -{item.discountPercentage}%
