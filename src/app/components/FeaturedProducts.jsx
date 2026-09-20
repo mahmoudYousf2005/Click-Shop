@@ -65,9 +65,10 @@ const FeaturedProducts =  () => {
               <div className="relative flex justify-center cursor-pointer">
                 <Image className="w-40 mb-4 object-contain rounded-full p-1"
                   src={item?.thumbnail.trim()}
-                  width={0} height={0}
+                  fill
+                  sizes="160px"
                   unoptimized
-                  alt="category img"                     
+                  alt={item?.title || "Product image"}                    
                 />
               </div>
               <Heart
@@ -107,7 +108,7 @@ const FeaturedProducts =  () => {
       </div>
 
       <div className="text-right mt-8 px-8 flex justify-end">
-        <Link href={"products"}>
+        <Link href={"/products"}>
           <button className="flex items-center gap-1 border border-orange-300 text-orange-500 font-bold px-2 py-1 rounded-lg cursor-pointer">
             View All Products <FaLongArrowAltRight />
           </button>

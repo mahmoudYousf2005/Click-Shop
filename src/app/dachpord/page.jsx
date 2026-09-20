@@ -9,7 +9,7 @@ const AdminDashboard = () => {
       <h1 className="text-2xl font-bold mb-6">لوحة تحكم الأدمن</h1>
       <p className="text-gray-500">أهلاً بيك، هنا هتقدر تدير المتجر بتاعك.</p>
 
-      <Link href={"dachpord/addProduct"}>add</Link>
+      <Link href={"/dachpord/addProduct"}>add</Link>
     </div>
   );
 };

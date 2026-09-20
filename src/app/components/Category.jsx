@@ -91,7 +91,7 @@ const Category = async () => {
            
         </div>
          <div className="text-right mt-8 px-8 flex justify-end ">
-                    <Link href={"categories"}>
+                    <Link href={"/README.mdcategories"}>
                         <button className="flex items-center gap-1 border border-orange-300 text-orange-500
                         font-bold px-2 py-1 rounded-lg cursor-pointer">View All Categories  <FaLongArrowAltRight />
                         </button>

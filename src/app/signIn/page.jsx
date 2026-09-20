@@ -14,27 +14,6 @@ const Page = () => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  // const handleSubmit = async (e) => {
-  //   e.preventDefault();
-    
-  //   if(!formData.email || ! formData.password){
-  //     getErrorMessage()
-  //     return
-  //   }
-  //   const {error , data} = await supabase.auth.signInWithPassword({
-  //       email: formData.email ,
-  //       password : formData.password
-  //   })
-
-  //   if(error){
-  //     console.error("Error SignIn" , error.message)
-  //     return
-  //   }else{
-  //     alert("تم تسجيل الدخول")
-  //     router.push("/")
-  //   }
-  
-  // };
 
   const handleSubmit = async (e) => {
   e.preventDefault();
@@ -144,7 +123,7 @@ const Page = () => {
 
         <p className="text-center text-sm text-gray-500 mt-6">
           لسه معندكش حساب؟{" "}
-          <Link href={"register"} className="text-orange-500 font-medium">
+          <Link href={"/register"} className="text-orange-500 font-medium">
             إنشاء حساب جديد
           </Link>
         </p>
