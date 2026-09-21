@@ -42,10 +42,10 @@ console.log(category)
       </div>
 
       
-      <div className="flex justify-center items-center gap-10 mb-8">
+      <div className="mb-14 mt-4 sticky top-24 z-10 ">
        <FilterProducts />
       </div>
-      <div className="grid md:grid-cols-4 sm:grid-cols-2">
+      <div className="  grid md:grid-cols-4 sm:grid-cols-2 gap-8">
         {data?.map((product)=>(
         <ProductCard key={product.id} product={product}/>
         ))}

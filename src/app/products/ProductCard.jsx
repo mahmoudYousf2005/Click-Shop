@@ -11,7 +11,7 @@ const ProductCard = ({ product }) => {
   const { addToCart } = useCart()
 
   return (
-    <div className="border border-gray-100 rounded-lg p-4 relative hover:shadow-md transition-shadow">
+    <div className="border border-gray-100 rounded-lg p-4 relative hover:shadow-md transition shadow">
         
       <button
         onClick={() => toggleWishlist(product)}

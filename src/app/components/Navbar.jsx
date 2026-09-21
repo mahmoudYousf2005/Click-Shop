@@ -9,19 +9,30 @@ import { IoClose } from "react-icons/io5";
 import { useState , useEffect} from "react";
 import {useWishlist }from "../wishlist/WishlistContext"
 import { useCart } from "../cart/ContextCart";
-import { useRouter } from "next/navigation";
 import { supabase } from "@/lib/supabase";
 import { LogOut } from "lucide-react";
 import { useAuth  ,  loading } from "../register/AuthContext";
 import { LayoutDashboard } from "lucide-react";
+import { usePathname } from "next/navigation";
 const Navbar = () => {
     const { wishlist } = useWishlist();
     const { cart } = useCart();
     const { user  , loading} = useAuth();
 
+    const pathName = usePathname()
+
     const [open , setOpen] = useState(false)
     const [scrolled , setScrolled] = useState(false)
     const [checkAdmin, setChecekAdmin] = useState(null);
+
+    // nav Links
+    const navLinks = [
+        {name:"Home" , href:"/"},
+        {name:"Products" , href:"/products"},
+        {name:"categories" , href:"/categories"},
+        {name:"About" , href:"/about"},
+        {name:"contact" , href:"/contact"},
+    ]
     // Scroll Navbar
     useEffect(()=>{
         const handleScroll = ()=>{
@@ -72,11 +83,15 @@ const Navbar = () => {
 
         {/* Links */}
         <div className="hidden xl:flex items-center gap-10 text-lg font-semibold  ">
-            <Link href={"/"} >Home</Link>
-            <Link href={"/products"} >Products</Link>
-            <Link href={"/categories"} >Categories</Link>
-            <Link href={"/about"} >About</Link>
-            <Link href={"/contact"} >Contact</Link>
+            {navLinks.map((link )=>{
+                const isActive = pathName === link.href;
+
+              return ( <Link key={link.href} 
+                    href={link.href}
+                    className={`${isActive ? "text-orange-500" : "text-black"}` }
+                >{link.name}</Link>)
+            })}
+           
         </div>
         {/*== Links ==*/}
 
@@ -118,7 +133,7 @@ const Navbar = () => {
                 </Link>
                 )}
 
-                <button className="md:hidden" 
+                <button className="xl:hidden cursor-pointer" 
                     aria-label={open ? "إغلاق القائمة" : "فتح القائمة"}
                     onClick={()=> setOpen(!open)}
                 >
@@ -134,11 +149,22 @@ const Navbar = () => {
          {/* Links */}
         {open && <div className="absolute top-16 left-0 w-full bg-black flex flex-col items-center text-white
          gap-4 py-6 hg:hidden border-t border-gray-800 z-50">
-            <Link href={"/"} >Home</Link>
+            {navLinks.map((link )=>{
+                const isActive = pathName === link.href;
+                const closeMeue = ()=>{
+                    setOpen(false)
+                }
+                return ( <Link key={link.href} 
+                    href={link.href}
+                    className={`${isActive ? "text-orange-500" : "text-white"}` }
+                    onClick={closeMeue}
+                >{link.name}</Link>)
+            })}
+            {/* <Link href={"/"} >Home</Link>
             <Link href={"/products"} >Products</Link>
             <Link href={"/categories"} >Categories</Link>
             <Link href={"/about"} >About</Link>
-            <Link href={"/contact"} >Contact</Link>
+            <Link href={"/contact"} >Contact</Link> */}
             <div className="flex items-center  relative ">
                 <input className="py-1.5 px-2 border rounded-lg  outline-none text-l bg-gray-700" type="text" placeholder="Search"/>
                 <IoSearch  className=" absolute right-2"/>
