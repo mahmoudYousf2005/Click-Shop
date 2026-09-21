@@ -6,10 +6,9 @@ const AdminDashboard = () => {
 
   return (
     <div className="container mx-auto px-4 py-8">
-      <h1 className="text-2xl font-bold mb-6">لوحة تحكم الأدمن</h1>
-      <p className="text-gray-500">أهلاً بيك، هنا هتقدر تدير المتجر بتاعك.</p>
+      <h1 className="text-2xl font-bold mb-6">Admin Dachboard</h1>
 
-      <Link href={"/dachpord/addProduct"}>add</Link>
+      <Link className=" px-3 py-2 bg-green-500" href={"/dachpord/addProduct"}>ADD PRODUCT</Link>
     </div>
   );
 };

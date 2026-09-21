@@ -45,7 +45,7 @@ console.log(category)
       <div className="flex justify-center items-center gap-10 mb-8">
        <FilterProducts />
       </div>
-      <div className="grid grid-cols-5">
+      <div className="grid md:grid-cols-4 sm:grid-cols-2">
         {data?.map((product)=>(
         <ProductCard key={product.id} product={product}/>
         ))}
