@@ -16,7 +16,8 @@ const ProductDetails = async ({ params }) => {
     .single();   // 👈 عشان تجيب object واحد مش array
 
   if (error || !product) {
-    return <div>المنتج غير موجود</div>;
+    console.error("Error select data from productdeatails" , error.message)
+    return <p className="text-center text-red-500 py-10">حصل خطأ في تحميل الفئات</p>
   }
 
   const images =

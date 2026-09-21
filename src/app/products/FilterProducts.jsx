@@ -1,22 +1,27 @@
-// components/CategoryFilter.jsx
 import Link from "next/link";
+import { supabase } from "@/lib/supabase";
 
-const categories = [
-  { label: "All", value: null },
-  { label: "mens-shoes", value: "mens-shoes" },
-  { label: "mens-shirts", value: "mens-shirts" },
-];
 
-const CategoryFilter = () => {
+const CategoryFilter = async () => {
+
+  const {data , error} = await supabase.from("products").select("*")
+  if(error){
+    console.error("Error select categorisData" , error.message)
+    return
+  }
+    const categories = ["all",...new Set(data.map((p) => p.category))];
+    console.log(categories)
+
   return (
     <div className="flex justify-center items-center gap-10 mb-8">
-      {categories.map((cat) => (
+      {categories.map((cat , index) => (
         <Link
-          key={cat.label}
-          href={cat.value ? `/products?category=${cat.value}` : "/products"}
+          key={index}
+          href={cat === "all" ? "/products" : `/products?category=${cat}`  }
           className="py-2 px-3 bg-green-400 text-white rounded-xl"
         >
-          {cat.label}
+          {cat}
+      {console.log(cat)}
         </Link>
       ))}
     </div>

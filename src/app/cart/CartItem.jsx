@@ -6,9 +6,12 @@ const CartItem = ({ item }) => {
   const { removeFromCart, updateQuantity } = useCart();
  
   return (
-    <div className="flex items-center gap-4 border-b border-gray-100 py-4">
-      <div className="w-20 h-20 bg-gray-50 rounded-lg flex items-center justify-center shrink-0">
-        <Image src={item.thumbnail} alt={item.title} width={64} height={64} unoptimized className="object-contain" />
+    <div className="flex items-center gap-4  border-b border-gray-100 py-4">
+      <div className=" relative w-20 h-20 bg-gray-50 rounded-lg flex items-center justify-center shrink-0">
+        <Image src={item.thumbnail}
+         alt={item.title}
+         fill
+         className="object-contain" />
       </div>
 
       <div className="flex-1 min-w-0">

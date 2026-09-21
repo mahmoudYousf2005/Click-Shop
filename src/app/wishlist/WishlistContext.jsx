@@ -1,6 +1,7 @@
 
 "use client";
 import { createContext, useContext, useState, useEffect, useRef } from "react";
+import { toast } from "@/components/ui/toast"
 
 const WishlistContext = createContext();
 
@@ -27,14 +28,21 @@ export const WishlistProvider = ({ children }) => {
 
   const isInWishlist = (productId) => {
     return wishlist.some((item) => item.id === productId);
+
   };
 
   const toggleWishlist = (product) => {
     setWishlist((prev) => {
       const exists = prev.some((item) => item.id === product.id);
       if (exists) {
+      toast.add({
+        title: "Product removing from wishlist",
+      })
         return prev.filter((item) => item.id !== product.id);
       }
+       toast.add({
+        title: "Product added to wishlist",
+      })
       return [...prev, product];
     });
   };

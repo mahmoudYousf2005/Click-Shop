@@ -2,27 +2,14 @@ import Link from "next/link";
 import { FaLongArrowAltRight } from "react-icons/fa";
 import { supabase } from "@/lib/supabase";
 import Image from "next/image"
-import { upabase } from "@/lib/supabase";
+export const dynamic = "force-dynamic";
 const Category = async () => {
 
-    // const response = await fetch("https://dummyjson.com/products?limit=0",{
-    //     next:{
-    //         revalidate:120
-    //     }
-    // })
-
-    // const data = await response.json()
-
-    // const categories = [... new Set(data.products.map((p)=> p.category))].slice(0,8)
-    // const filterCategory = categories.flatMap((cat)=>{
-
-    //     return data.products.filter((p)=> p.category === cat).slice(0,1)
-
-    // })
-
+   
     const {data , error} = await  supabase.from("products").select("*")
      if(error){
         console.error("Error Select Data " , error.message)
+        return <p className="text-center text-red-500 py-10">حصل خطأ في تحميل الفئات</p>
      }
 
      const categories = [... new Set(data.map((p)=>p.category))]
@@ -52,10 +39,7 @@ const Category = async () => {
             text:"text-emerald-500"
         },
     ]
-    colors.map((c)=>{
-        return c
-    })
-//   if (data.length === 0) return null;
+   
 
   return (
     <div className="text-center my-6 container mx-auto">

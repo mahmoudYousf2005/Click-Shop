@@ -13,15 +13,15 @@ import { useRouter } from "next/navigation";
 import { supabase } from "@/lib/supabase";
 import { LogOut } from "lucide-react";
 import { useAuth  ,  loading } from "../register/AuthContext";
+import { LayoutDashboard } from "lucide-react";
 const Navbar = () => {
     const { wishlist } = useWishlist();
     const { cart } = useCart();
     const { user  , loading} = useAuth();
-     const router = useRouter()
 
     const [open , setOpen] = useState(false)
     const [scrolled , setScrolled] = useState(false)
-    // const [loading, setLoading] = useState(true);
+    const [checkAdmin, setChecekAdmin] = useState(null);
     // Scroll Navbar
     useEffect(()=>{
         const handleScroll = ()=>{
@@ -40,6 +40,24 @@ const Navbar = () => {
         return
     }
   };
+
+ 
+  useEffect(()=>{
+    const checkUser = async ()=>{
+    if(!user) return
+    const { data , error } = await supabase .from("profiles")
+        .select("role")
+        .eq("id", user.id)
+        .single();
+    if(error){
+        console.error("Error Cheek User" , error.message)
+        return
+    }    
+    setChecekAdmin(data)
+
+  }
+  checkUser()
+  },[user])
    
   return (
     <div className={ `sticky z-40 top-0  mx-auto flex items-center justify-between py-4 container px-10 
@@ -77,6 +95,10 @@ const Navbar = () => {
                 <Link href={"/cart"} aria-label="سلة المشتريات" className=" relative cursor-pointer">
                     <TiShoppingCart />
                     <span className=" absolute top-0  -right-2 text-sm">{cart.length}</span>
+                </Link>
+
+                <Link href={"/dachpord"}>
+                {checkAdmin?.role === "admin" ? <LayoutDashboard /> : null}
                 </Link>
                
                 {loading ? null : user ? (

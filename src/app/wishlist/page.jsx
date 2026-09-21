@@ -9,7 +9,7 @@ const Page = () => {
   if (wishlist.length === 0) {
     return (
       <div className="container mx-auto flex flex-col items-center justify-center h-64 text-gray-400">
-        <p>مفيش منتجات في المفضلة لسه</p>
+        <p>No products in wishlist</p>
       </div>
     );
   }
@@ -18,7 +18,7 @@ const Page = () => {
     <div className="container mx-auto">
       <div className="bg-amber-50 py-4 px-10 rounded-lg mb-8">
         <h2 className="text-sm font-semibold text-orange-400">YOUR PICKS</h2>
-        <h1 className="font-bold text-2xl">المفضلة ({wishlist.length})</h1>
+        <h1 className="font-bold text-2xl">Wishlist ({wishlist.length})</h1>
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4">

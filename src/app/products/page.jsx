@@ -4,7 +4,7 @@ import ProductsList from "./ProductsList";
 
 const page = ({searchParams}) => {
   return (
-    <div className="">
+    <div className="container mx-auto">
 
        <div className="bg-amber-50 py-4 px-10 rounded-lg flex items-center justify-between">         <div className="">
           <h2 className="text-sm font-semibold text-orange-400">SHOP NOW</h2>

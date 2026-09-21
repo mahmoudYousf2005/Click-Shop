@@ -14,7 +14,7 @@ const Footer = () => {
               Click <span className="text-orange-500">Shop</span>
             </h2>
             <p className="text-sm text-gray-400 leading-relaxed">
-              وجهتك الأولى للتسوق الإلكتروني — منتجات أصلية بأفضل الأسعار وتوصيل سريع.
+             Your first stop for online shopping — genuine products at the best prices, delivered fast.
             </p>
             <div className="flex gap-3 mt-4">
               <a href="#" className="hover:text-orange-500"><FaFacebook className="w-5 h-5" /></a>
@@ -25,7 +25,7 @@ const Footer = () => {
 
           {/* Quick Links */}
           <div>
-            <h3 className="text-white font-semibold mb-3">روابط سريعة</h3>
+            <h3 className="text-white font-semibold mb-3">Quick Links</h3>
             <ul className="space-y-2 text-sm">
               <li><Link href="/" className="hover:text-orange-500">Home</Link></li>
               <li><Link href="/products" className="hover:text-orange-500">Products</Link></li>
@@ -37,18 +37,18 @@ const Footer = () => {
 
           {/* Customer Service */}
           <div>
-            <h3 className="text-white font-semibold mb-3">خدمة العملاء</h3>
+            <h3 className="text-white font-semibold mb-3">Customer Service</h3>
             <ul className="space-y-2 text-sm">
-              <li><Link href="/faq" className="hover:text-orange-500">الأسئلة الشائعة</Link></li>
-              <li><Link href="/shipping" className="hover:text-orange-500">الشحن والتوصيل</Link></li>
-              <li><Link href="/returns" className="hover:text-orange-500">سياسة الاسترجاع</Link></li>
-              <li><Link href="/privacy" className="hover:text-orange-500">سياسة الخصوصية</Link></li>
+              <li><Link href="/faq" className="hover:text-orange-500">FAQ</Link></li>
+              <li><Link href="/shipping" className="hover:text-orange-500">	Shipping & Delivery</Link></li>
+              <li><Link href="/returns" className="hover:text-orange-500">Return Policy</Link></li>
+              <li><Link href="/privacy" className="hover:text-orange-500">Privacy Policy</Link></li>
             </ul>
           </div>
 
           {/* Contact Info */}
           <div>
-            <h3 className="text-white font-semibold mb-3">تواصل معنا</h3>
+            <h3 className="text-white font-semibold mb-3">Contact Us</h3>
             <ul className="space-y-3 text-sm">
               <li className="flex items-center gap-2">
                 <Phone className="w-4 h-4 text-orange-500" />
@@ -60,7 +60,7 @@ const Footer = () => {
               </li>
               <li className="flex items-center gap-2">
                 <MapPin className="w-4 h-4 text-orange-500" />
-                القاهرة، مصر
+                 Cairo, Egypt
               </li>
             </ul>
           </div>
@@ -69,7 +69,7 @@ const Footer = () => {
 
         {/* Bottom bar */}
         <div className="border-t border-gray-800 mt-10 pt-6 text-center text-sm text-gray-500">
-          © {new Date().getFullYear()} Click Shop. جميع الحقوق محفوظة.
+          © {new Date().getFullYear()} Click Shop. All rights reserved
         </div>
       </div>
     </footer>

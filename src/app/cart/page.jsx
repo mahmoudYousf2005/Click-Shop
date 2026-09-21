@@ -1,6 +1,4 @@
 
-
-
 "use client";
 import Link from "next/link";
 import { ShoppingCart, ArrowLeft } from "lucide-react";
@@ -14,7 +12,6 @@ const Page = () => {
   
   const getProductsCart = async ()=>{
     const {error , data} = await supabase.from("cart").select("*")
-    console.log(data)
     if(error){
       console.error("Error get products cart" , error.message)
       return
@@ -30,11 +27,11 @@ const Page = () => {
     return (
       <div className="container mx-auto flex flex-col items-center justify-center h-96 text-center px-4">
         <ShoppingCart className="w-16 h-16 text-gray-300 mb-4" />
-        <h2 className="text-xl font-bold mb-2">السلة فاضية</h2>
-        <p className="text-gray-500 mb-6">لسه مضفتش أي منتجات لسلة التسوق</p>
+        <h2 className="text-xl font-bold mb-2">Your cart is empty </h2>
+        <p className="text-gray-500 mb-6">Youy haven&apos;t added any products to your shopping cart yet</p>
         <Link href="/products">
           <button className="bg-orange-500 hover:bg-orange-600 text-white px-6 py-2.5 rounded-md font-medium">
-            تسوق دلوقتي
+             SHOP NOW
           </button>
         </Link>
       </div>
@@ -48,7 +45,7 @@ const Page = () => {
     <div className="container mx-auto px-4">
       <div className="bg-amber-50 py-4 px-10 rounded-lg mb-8">
         <h2 className="text-sm font-semibold text-orange-400">YOUR CART</h2>
-        <h1 className="font-bold text-2xl">سلة التسوق ({cart.length})</h1>
+        <h1 className="font-bold text-2xl">Shopping Cart ({cart.length})</h1>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-[2fr_1fr] gap-8">
@@ -60,31 +57,31 @@ const Page = () => {
 
           <Link href="/products" className="inline-flex items-center gap-2 text-orange-500 font-medium mt-4 text-sm">
             <ArrowLeft className="w-4 h-4" />
-            متابعة التسوق
+             Continue Shopping
           </Link>
         </div>
 
         {/* Order Summary */}
         <div className="border border-gray-100 rounded-lg p-6 h-fit">
-          <h2 className="font-bold text-lg mb-4">ملخص الطلب</h2>
+          <h2 className="font-bold text-lg mb-4">Order Summary</h2>
 
           <div className="space-y-3 text-sm">
             <div className="flex justify-between text-gray-600">
-              <span>المجموع الفرعي</span>
+              <span>Subtotal</span>
               <span>${cartTotal.toFixed(2)}</span>
             </div>
             <div className="flex justify-between text-gray-600">
-              <span>الشحن</span>
+              <span>Shipping</span>
               <span>{shipping === 0 ? "مجاني" : `$${shipping.toFixed(2)}`}</span>
             </div>
             <div className="border-t border-gray-100 pt-3 flex justify-between font-bold text-base">
-              <span>الإجمالي</span>
+              <span>total</span>
               <span className="text-orange-500">${total.toFixed(2)}</span>
             </div>
           </div>
 
-          <button className="w-full bg-orange-500 hover:bg-orange-600 text-white py-2.5 rounded-md font-medium mt-6 cursor-pointer">
-            إتمام الطلب
+          <button className="w-full bg-orange-500 hover:bg-orange-600 text-white py-2.5 rounded-md font-bold text-lg mt-6 cursor-pointer">
+             Checkout
           </button>
         </div>
       </div>

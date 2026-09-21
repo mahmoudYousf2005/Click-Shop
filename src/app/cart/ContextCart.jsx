@@ -1,15 +1,15 @@
-
 "use client";
-
 import { createContext, useCallback, useContext, useEffect, useState } from "react";
 import { supabase } from "@/lib/supabase";
 import { useAuth } from "../register/AuthContext";
+import { useRouter } from "next/navigation";
+import { toast } from "@/components/ui/toast"
 
 const CartContext = createContext();
-
 export const CartProvider = ({ children }) => {
   const { user } = useAuth();
   const [cart, setCart] = useState([]);
+  const router = useRouter()
 
   // 🟢 تحميل الكارت من الداتابيز
   const fetchCart = useCallback(async () => {
@@ -35,9 +35,14 @@ export const CartProvider = ({ children }) => {
   // 🟢 إضافة منتج
   const addToCart = async (product) => {
     if (!user) {
-      alert("لازم تسجل دخول");
-      return;
+    toast.add({
+      title: "Please log in to continue",
+      // description: "Sunday, December 3 at 9:00 AM",  
+    })
+      router.push("/register")
+      // return;
     }
+    
 
     const existing = cart.find(
       (item) => item.product_id === product.id
@@ -48,6 +53,10 @@ export const CartProvider = ({ children }) => {
         .from("cart")
         .update({ quantity: existing.quantity + 1 })
         .eq("id", existing.id);
+        toast.add({
+        title: "Quantity increased",
+        // description: "Sunday, December 3 at 9:00 AM",  
+    })
     } else {
       await supabase.from("cart").insert([
         {
@@ -59,7 +68,12 @@ export const CartProvider = ({ children }) => {
           price: product.price,
           thumbnail: product.thumbnail,
         },
+
       ]);
+      toast.add({
+      title: "Product added to cart",
+      // description: "Sunday, December 3 at 9:00 AM",  
+    })
     }
 
     fetchCart();
@@ -70,7 +84,9 @@ const removeFromCart = async (id) => {
   // تحديث فوري في الواجهة (Optimistic Update)
   const prevCart = cart;
   setCart((prev) => prev.filter((item) => item.id !== id));
-
+   toast.add({
+      title: "Product removed cart",
+    })
   const { data, error } = await supabase
     .from("cart")
     .delete()
@@ -86,6 +102,7 @@ const removeFromCart = async (id) => {
   if (!data || data.length === 0) {
     // معدش حصل حذف فعلي (غالبًا مشكلة RLS Policy)
     console.warn("لم يتم حذف أي صف - تحقق من RLS policy على جدول cart");
+    
     setCart(prevCart);
     return;
   }
@@ -135,3 +152,5 @@ const removeFromCart = async (id) => {
 export const useCart = () => {
   return useContext(CartContext);
 };
+
+

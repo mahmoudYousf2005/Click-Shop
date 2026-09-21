@@ -8,7 +8,7 @@ const ContactForm = () => {
     subject: "",
     message: "",
   });
-  const [status, setStatus] = useState(null); // null | "loading" | "success" | "error"
+  const [status, setStatus] = useState(null); 
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -33,7 +33,7 @@ const ContactForm = () => {
     <form onSubmit={handleSubmit} className="space-y-4">
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <div>
-          <label className="text-sm font-medium block mb-1">الاسم</label>
+          <label className="text-sm font-medium block mb-1">Name</label>
           <input
             type="text"
             name="name"
@@ -44,7 +44,7 @@ const ContactForm = () => {
           />
         </div>
         <div>
-          <label className="text-sm font-medium block mb-1">البريد الإلكتروني</label>
+          <label className="text-sm font-medium block mb-1">Email</label>
           <input
             type="email"
             name="email"
@@ -57,7 +57,7 @@ const ContactForm = () => {
       </div>
 
       <div>
-        <label className="text-sm font-medium block mb-1">الموضوع</label>
+        <label className="text-sm font-medium block mb-1">Subject</label>
         <input
           type="text"
           name="subject"
@@ -69,7 +69,7 @@ const ContactForm = () => {
       </div>
 
       <div>
-        <label className="text-sm font-medium block mb-1">الرسالة</label>
+        <label className="text-sm font-medium block mb-1">Message</label>
         <textarea
           name="message"
           value={formData.message}
@@ -85,17 +85,17 @@ const ContactForm = () => {
         disabled={status === "loading"}
         className="w-full bg-orange-500 hover:bg-orange-600 text-white py-2.5 rounded-md font-medium disabled:opacity-60"
       >
-        {status === "loading" ? "جاري الإرسال..." : "إرسال الرسالة"}
+        {status === "loading" ? "Sending..." : "Send Message"}
       </button>
 
       {status === "success" && (
         <p className="text-green-600 text-sm text-center">
-          تم إرسال رسالتك بنجاح! هنتواصل معاك قريبًا.
+          Your message has been sent successfully! We&apos;ll get back to you soon.
         </p>
       )}
       {status === "error" && (
         <p className="text-red-600 text-sm text-center">
-          حصل خطأ، حاول تاني.
+         Something went wrong, please try again.
         </p>
       )}
     </form>

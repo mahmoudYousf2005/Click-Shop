@@ -9,7 +9,7 @@ const page = () => {
       <div className="bg-amber-50 py-4 px-10 rounded-lg flex items-center justify-between mb-10">
         <div>
           <h2 className="text-sm font-semibold text-orange-400">GET IN TOUCH</h2>
-          <h1 className="font-bold text-2xl">تواصل معنا</h1>
+          <h1 className="font-bold text-2xl">Contact Us</h1>
         </div>
         <p className="text-sm text-gray-500">Home &gt; Contact</p>
       </div>
@@ -22,9 +22,9 @@ const page = () => {
               <Phone className="w-5 h-5 text-orange-500" />
             </div>
             <div>
-              <h3 className="font-semibold mb-1">اتصل بينا</h3>
+              <h3 className="font-semibold mb-1">Call Us</h3>
               <p className="text-sm text-gray-500">+20 100 123 4567</p>
-              <p className="text-sm text-gray-500">من 9 صباحًا لـ 10 مساءً</p>
+              <p className="text-sm text-gray-500">9 AM - 10 PM</p>
             </div>
           </div>
 
@@ -33,9 +33,9 @@ const page = () => {
               <Mail className="w-5 h-5 text-orange-500" />
             </div>
             <div>
-              <h3 className="font-semibold mb-1">راسلنا</h3>
+              <h3 className="font-semibold mb-1">Email Us</h3>
               <p className="text-sm text-gray-500">support@clickshop.com</p>
-              <p className="text-sm text-gray-500">هنرد خلال 24 ساعة</p>
+              <p className="text-sm text-gray-500">We &apos; ll reply within 24 hours</p>
             </div>
           </div>
 
@@ -44,8 +44,8 @@ const page = () => {
               <MapPin className="w-5 h-5 text-orange-500" />
             </div>
             <div>
-              <h3 className="font-semibold mb-1">زورنا</h3>
-              <p className="text-sm text-gray-500">القاهرة، مصر</p>
+              <h3 className="font-semibold mb-1">Visit Us</h3>
+              <p className="text-sm text-gray-500">Cairo, Egypt</p>
             </div>
           </div>
 
@@ -54,18 +54,18 @@ const page = () => {
               <Clock className="w-5 h-5 text-orange-500" />
             </div>
             <div>
-              <h3 className="font-semibold mb-1">مواعيد العمل</h3>
-              <p className="text-sm text-gray-500">السبت - الخميس: 9ص - 10م</p>
-              <p className="text-sm text-gray-500">الجمعة: 2م - 10م</p>
+              <h3 className="font-semibold mb-1">Working Hours</h3>
+              <p className="text-sm text-gray-500">Sat - Thu: 9 AM - 10 PM</p>
+              <p className="text-sm text-gray-500">	Friday: 2 PM - 10 PM</p>
             </div>
           </div>
         </div>
 
         {/* Contact Form */}
         <div className="border border-gray-100 rounded-lg p-6">
-          <h2 className="font-bold text-xl mb-1">ابعتلنا رسالة</h2>
+          <h2 className="font-bold text-xl mb-1">Send Us a Message</h2>
           <p className="text-sm text-gray-500 mb-6">
-            هنرد عليك في أسرع وقت ممكن
+            	We&apos;ll get back to you as soon as possible
           </p>
           <ContactForm />
         </div>

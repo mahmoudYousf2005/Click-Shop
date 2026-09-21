@@ -75,14 +75,14 @@ const Page = () => {
   return (
     <div className="container mx-auto flex items-center justify-center min-h-[70vh] px-4">
       <div className="w-full max-w-md border border-gray-100 rounded-lg p-8">
-        <h1 className="text-2xl font-bold text-center mb-1">تسجيل الدخول</h1>
+        <h1 className="text-2xl font-bold text-center mb-1">Log in</h1>
         <p className="text-gray-500 text-center text-sm mb-6">
-          سعداء برجوعك تاني
+            Welcome back
         </p>
 
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <label className="text-sm font-medium block mb-1">البريد الإلكتروني</label>
+            <label className="text-sm font-medium block mb-1">Email</label>
             <input
               type="email"
               name="email"
@@ -95,7 +95,7 @@ const Page = () => {
 
           <div>
             <div className="flex items-center justify-between mb-1">
-              <label className="text-sm font-medium">كلمة السر</label>
+              <label className="text-sm font-medium">Password</label>
               {/* <Link href="/forgot-password" className="text-xs text-orange-500">
                 نسيت كلمة السر؟
               </Link> */}
@@ -117,14 +117,14 @@ const Page = () => {
             disabled={loading}
             className="w-full bg-orange-500 hover:bg-orange-600 text-white py-2.5 rounded-md font-medium disabled:opacity-60"
           >
-            {loading ? "جاري الدخول..." : "تسجيل الدخول"}
+            {loading ? "Logging in..." : "Log in"}
           </button>
         </form>
 
         <p className="text-center text-sm text-gray-500 mt-6">
-          لسه معندكش حساب؟{" "}
+          Don&apos;t have an account?{" "}
           <Link href={"/register"} className="text-orange-500 font-medium">
-            إنشاء حساب جديد
+            Create new account
           </Link>
         </p>
       </div>

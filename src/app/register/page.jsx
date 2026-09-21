@@ -58,14 +58,14 @@ const Page = () => {
   return (
     <div className="container mx-auto flex items-center justify-center min-h-[70vh] px-4">
       <div className="w-full max-w-md border border-gray-100 rounded-lg p-8">
-        <h1 className="text-2xl font-bold text-center mb-1">إنشاء حساب جديد</h1>
+        <h1 className="text-2xl font-bold text-center mb-1">Craete New Account</h1>
         <p className="text-gray-500 text-center text-sm mb-6">
-          سجّل عشان تقدر تتابع طلباتك ومفضلتك
+          Sign up to track your orders and favorites
         </p>
 
         <form onSubmit={handleSubmit} noValidate  className="space-y-4">
           <div>
-            <label className="text-sm font-medium block mb-1">الاسم</label>
+            <label className="text-sm font-medium block mb-1">Name</label>
             <input
               type="text"
               name="name"
@@ -77,7 +77,7 @@ const Page = () => {
           </div>
 
           <div>
-            <label className="text-sm font-medium block mb-1">البريد الإلكتروني</label>
+            <label className="text-sm font-medium block mb-1">Email</label>
             <input
               type="email"
               name="email"
@@ -89,7 +89,7 @@ const Page = () => {
           </div>
 
           <div>
-            <label className="text-sm font-medium block mb-1">كلمة السر</label>
+            <label className="text-sm font-medium block mb-1">Password</label>
             <input
               type="password"
               name="password"
@@ -108,14 +108,14 @@ const Page = () => {
             disabled={loading}
             className="w-full bg-orange-500 hover:bg-orange-600 text-white py-2.5 rounded-md font-medium disabled:opacity-60"
           >
-            {loading ? "جاري إنشاء الحساب..." : "إنشاء حساب"}
+            {loading ? "Creating your acount..." : "Create Account"}
           </button>
         </form>
 
         <p className="text-center text-sm text-gray-500 mt-6">
-          عندك حساب بالفعل؟{" "}
+            Already have Acount?{" "}
           <Link href={"/signIn"} className="text-orange-500 font-medium">
-            سجّل دخول
+            Log in
           </Link>
         </p>
       </div>
