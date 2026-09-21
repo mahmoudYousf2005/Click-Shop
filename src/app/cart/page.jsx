@@ -72,7 +72,7 @@ const Page = () => {
             </div>
             <div className="flex justify-between text-gray-600">
               <span>Shipping</span>
-              <span>{shipping === 0 ? "مجاني" : `$${shipping.toFixed(2)}`}</span>
+              <span>{shipping === 0 ? "free" : `$${shipping.toFixed(2)}`}</span>
             </div>
             <div className="border-t border-gray-100 pt-3 flex justify-between font-bold text-base">
               <span>total</span>
