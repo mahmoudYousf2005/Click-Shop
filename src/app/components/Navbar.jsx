@@ -13,18 +13,20 @@ import { supabase } from "@/lib/supabase";
 import { LogOut } from "lucide-react";
 import { useAuth  ,  loading } from "../register/AuthContext";
 import { LayoutDashboard } from "lucide-react";
-import { usePathname } from "next/navigation";
+import { usePathname , useSearchParams , useRouter} from "next/navigation";
+
 const Navbar = () => {
     const { wishlist } = useWishlist();
     const { cart } = useCart();
     const { user  , loading} = useAuth();
 
     const pathName = usePathname()
-
+    const searchParams = useSearchParams()
+    const router = useRouter()
     const [open , setOpen] = useState(false)
     const [scrolled , setScrolled] = useState(false)
     const [checkAdmin, setChecekAdmin] = useState(null);
-
+    const [value , setValue] = useState(searchParams.get("search") || "")
     // nav Links
     const navLinks = [
         {name:"Home" , href:"/"},
@@ -69,6 +71,25 @@ const Navbar = () => {
   }
   checkUser()
   },[user])
+
+//  const [value, setValue] = useState(searchParams.get("search") || "");
+
+useEffect(() => {
+  const t = setTimeout(() => {
+    const current = searchParams.get("search") || "";
+    if (current === value) return;
+
+    const params = new URLSearchParams(searchParams.toString());
+    if (value) params.set("search", value);
+    else params.delete("search");
+
+    router.replace(`/products?${params.toString()}`);
+  }, 300);
+
+  return () => clearTimeout(t);
+}, [value]);
+
+const handleSearch = (e) => setValue(e.target.value);
    
   return (
     <div className={ `sticky z-40 top-0  mx-auto flex items-center justify-between py-4 container px-10 
@@ -99,8 +120,13 @@ const Navbar = () => {
         {/* Search */}
         <div className="flex items-center gap-4">
             <div className="hidden md:flex items-center mr-6 relative ">
-                <input className="py-1.5 px-2 border border-gray-300 rounded-lg outline-none text-l bg-gray-50" type="text" placeholder="Search"/>
-                <IoSearch  className=" absolute right-2 text-gray-500"/>
+                <input
+                value={value}
+                onChange={handleSearch}
+                 className="py-1.5 px-2 border border-gray-300 rounded-lg outline-none text-l
+                  bg-gray-50" type="text" placeholder="Search"/>
+                <IoSearch  className=" absolute right-2 text-gray-500"
+                />
             </div>
             <div className="flex items-center gap-4 text-2xl">
                <Link href={"/wishlist"} aria-label="المفضلة"  className=" relative cursor-pointer">
@@ -160,13 +186,12 @@ const Navbar = () => {
                     onClick={closeMeue}
                 >{link.name}</Link>)
             })}
-            {/* <Link href={"/"} >Home</Link>
-            <Link href={"/products"} >Products</Link>
-            <Link href={"/categories"} >Categories</Link>
-            <Link href={"/about"} >About</Link>
-            <Link href={"/contact"} >Contact</Link> */}
+           
             <div className="flex items-center  relative ">
-                <input className="py-1.5 px-2 border rounded-lg  outline-none text-l bg-gray-700" type="text" placeholder="Search"/>
+                <input className="py-1.5 px-2 border rounded-lg  outline-none text-l bg-gray-700" type="text" placeholder="Search"
+                value={value}
+                onChange={handleSearch}
+                />
                 <IoSearch  className=" absolute right-2"/>
             </div>
         </div>}

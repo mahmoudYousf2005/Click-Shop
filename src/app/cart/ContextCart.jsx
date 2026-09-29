@@ -11,7 +11,7 @@ export const CartProvider = ({ children }) => {
   const [cart, setCart] = useState([]);
   const router = useRouter()
 
-  // 🟢 تحميل الكارت من الداتابيز
+  //  تحميل الكارت من الداتابيز
   const fetchCart = useCallback(async () => {
   if (!user) return;
 
@@ -32,7 +32,7 @@ export const CartProvider = ({ children }) => {
   // eslint-disable-next-line react-hooks/set-state-in-effect
   fetchCart();
 }, [fetchCart]);
-  // 🟢 إضافة منتج
+  //  إضافة منتج
   const addToCart = async (product) => {
     if (!user) {
     toast.add({
@@ -100,17 +100,15 @@ const removeFromCart = async (id) => {
   }
 
   if (!data || data.length === 0) {
-    // معدش حصل حذف فعلي (غالبًا مشكلة RLS Policy)
     console.warn("لم يتم حذف أي صف - تحقق من RLS policy على جدول cart");
     
     setCart(prevCart);
     return;
   }
  
-  // مفيش داعي لـ fetchCart() هنا لأن الـ state اتحدّث بالفعل
 };
 
-  // 🟢 تحديث الكمية
+  //  تحديث الكمية
   const updateQuantity = async (id, quantity) => {
     if (quantity < 1) return;
 
@@ -122,12 +120,12 @@ const removeFromCart = async (id) => {
     fetchCart();
   };
 
-  // 🟢 إجمالي السعر (مؤقت)
+  // إجمالي السعر
   const cartTotal = cart.reduce((sum, item) => {
     return sum + (item.price || 0) * item.quantity;
   }, 0);
 
-  // 🟢 عدد المنتجات
+  //  عدد المنتجات
   const cartCount = cart.reduce((sum, item) => {
     return sum + item.quantity;
   }, 0);
@@ -148,7 +146,7 @@ const removeFromCart = async (id) => {
   );
 };
 
-// 🔥 Hook جاهزة
+//  Hook جاهزة
 export const useCart = () => {
   return useContext(CartContext);
 };
