@@ -7,6 +7,7 @@ import { AuthProvider } from "./register/AuthContext";
 import {WishlistProvider} from "./wishlist/WishlistContext"
 import { CartProvider } from "./cart/ContextCart";
 import { Toaster } from "@/components/ui/toast"
+import { Suspense } from "react";
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -36,7 +37,9 @@ export default function RootLayout({ children }) {
         <AuthProvider>
           <WishlistProvider>
             <CartProvider>
-              <Navbar />
+              <Suspense fallback={null}>
+                <Navbar />
+              </Suspense>
               {children}
               <Footer />
               <Toaster />
