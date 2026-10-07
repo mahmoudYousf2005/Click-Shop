@@ -40,14 +40,14 @@ const Page = () => {
         Manage and track all customer orders
       </p>
 
-      <div className="flex gap-2 items-center mb-5">
+      <div className="flex flex-col w-full md:flex-row gap-2 items-center mb-5">
         {tabs.map((tab)=>(
           <button 
           key={tab}
           onClick={()=> setStatusFilter(tab)}
-          className={`px-4 py-1.5 rounded-full text-sm font-medium capitalize cursor-pointer transition
+          className={`w-full py-2 rounded-full text-sm font-medium capitalize cursor-pointer transition
           ${statusFilter === tab ?
-            "bg-orange-500 text-white" : "bg-gray-100 text-gray-400 hover:bg-gray-200"
+            "bg-orange-500 hover:bg-orange-600 text-white" : "bg-gray-100 text-gray-400 hover:bg-gray-200"
           }`}>
             {tab}
           </button>

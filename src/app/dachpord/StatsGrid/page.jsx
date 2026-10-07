@@ -29,7 +29,7 @@ const Page = () => {
   }, []);
 
   return (
-    <div className="">
+    <div className="mt-6">
       {loading ? (
         <div className="grid grid-cols-1  md:grid-cols-4 gap-4 mb-4">
         {[1,2,3,4].map((i)=>(

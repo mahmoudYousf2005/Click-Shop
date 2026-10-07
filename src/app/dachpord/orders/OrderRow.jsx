@@ -42,7 +42,7 @@ const OrderRow = ({order}) => {
                 <ChevronDown className="w-4 h-4 text-gray-400"/>
             )}
         </td>
-       <td className="py-3  text-xs text-gray-500">#{order.id}</td>
+       <td className="py-3 text-xs text-gray-500">#{order.id}</td>
         <td className="py-3  text-xs text-gray-600">
           {order.user_id.slice(0, 8)}...
         </td>
