@@ -75,13 +75,13 @@ const CustomersProfiles = () => {
         ):(
             customers.map((item) => (
                 <tr key={item.id} className="text-left text-gray-600 border-b border-gray-100 text-sm w-full">
-                    <td className="py-3 font-mono text-xs text-gray-600 px-2">
+                    <td className="py-3  text-xs text-gray-600 px-2">
                         {item.id.slice(0, 8)}...
                     </td>
                     <td className="py-3 px-2">{item.ordersCount}</td>
                     <td className="py-3 px-2">${item.totalSpent.toFixed(2)}</td>
                     <td className="py-3 px-2">{new Date(item.createdAt).toLocaleDateString()}</td>
-                    <td className="py-3 px-2">
+                    <td className="py-3 px-2 ">
                         <span
                         className={`text-xs font-semibold px-2 py-1 rounded-full ${
                             statusStyles[item.status] || "bg-gray-50 text-gray-500"

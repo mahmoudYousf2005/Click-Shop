@@ -1,7 +1,7 @@
 // "use client";
 
 import Link from "next/link";
-import StatsGrid from "./ٍStatsGrid/page"
+import StatsGrid from "./StatsGrid/page"
 import TopProducts from "./component/TopProducts"
 import SalesChart from "./component/SalesChart"
 import RecentOrders from "./component/RecentOrders";
