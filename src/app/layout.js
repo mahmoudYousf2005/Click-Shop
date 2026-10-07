@@ -1,7 +1,8 @@
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 
-import Navbar from "./components/Navbar";
+// import Navbar from "./components/Navbar";
+import NavbarWrapper from "./components/NavbarWrapper";
 import Footer from "./components/Footer";
 import { AuthProvider } from "./register/AuthContext";
 import {WishlistProvider} from "./wishlist/WishlistContext"
@@ -38,7 +39,7 @@ export default function RootLayout({ children }) {
           <WishlistProvider>
             <CartProvider>
               <Suspense fallback={null}>
-                <Navbar />
+                <NavbarWrapper />
               </Suspense>
               {children}
               <Footer />

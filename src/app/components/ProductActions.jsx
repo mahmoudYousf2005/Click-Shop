@@ -4,7 +4,7 @@ import { Heart, ShoppingCart } from "lucide-react";
 import { useCart } from "../../cart/ContextCart";
 import { useWishlist } from "../../wishlist/WishlistContext";
 import { useRouter } from "next/navigation";
-import ConfirmModal from "../../components/ConfirmModal";
+import ConfirmModal from "../components/";
 
 const ProductActions = ({ product }) => {
   const { addToCart, buyNow } = useCart();
@@ -28,9 +28,9 @@ const ProductActions = ({ product }) => {
     const order = await buyNow(product, quantity);
     setProcessing(false);
     setShowConfirm(false);
-    // if (order) {
-    //   // router.push(`/order-confirmation/${order.id}`);
-    // }
+    if (order) {
+      router.push(`/order-confirmation/${order.id}`);
+    }
   };
 
   return (

@@ -27,6 +27,7 @@ const Navbar = () => {
     const [scrolled , setScrolled] = useState(false)
     const [checkAdmin, setChecekAdmin] = useState(null);
     const [value , setValue] = useState(searchParams.get("search") || "")
+    const [mounted, setMounted] = useState(false);
     // nav Links
     const navLinks = [
         {name:"Home" , href:"/"},
@@ -89,6 +90,10 @@ useEffect(() => {
   return () => clearTimeout(t);
 }, [value]);
 
+useEffect(() => {
+  setMounted(true);
+}, []);
+
 const handleSearch = (e) => setValue(e.target.value);
    
   return (
@@ -131,33 +136,43 @@ const handleSearch = (e) => setValue(e.target.value);
             <div className="flex items-center gap-4 text-2xl">
                <Link href={"/wishlist"} aria-label="المفضلة"  className=" relative cursor-pointer">
                     <CiHeart />
-                    <span className=" absolute top-0  -right-2 text-sm">{wishlist.length}</span>
+                    {mounted && wishlist.length > 0 && (
+                        <span className="absolute top-0 -right-2 text-sm">{wishlist.length}</span>
+                    )}
                 </Link>
                 <Link href={"/cart"} aria-label="سلة المشتريات" className=" relative cursor-pointer">
                     <TiShoppingCart />
-                    <span className=" absolute top-0  -right-2 text-sm">{cart.length}</span>
+                    {mounted && cart.length > 0 &&
+                    <span className=" absolute top-0  -right-2 text-sm">{cart.length}</span>}
                 </Link>
 
-                <Link href={"/dachpord"}>
-                {checkAdmin?.role === "admin" ? <LayoutDashboard /> : null}
+               {checkAdmin?.role === "admin" && (
+                <Link href="/dachpord" aria-label="لوحة التحكم">
+                    <LayoutDashboard />
                 </Link>
+                )}
                
-                {loading ? null : user ? (
+               {!mounted || loading ? (
+                <div className="w-6 h-6" />
+                ) : user ? (
                 <div className="flex items-center gap-2">
                     <div className="flex items-center gap-1.5 text-base font-semibold">
                     <span>{user.user_metadata?.name || user.email}</span>
                     </div>
-                    <button onClick={handleLogout} title="تسجيل الخروج"
-                     aria-label="تسجيل الخروج"
-                     className="text-lg cursor-pointer">
+                    <button
+                    onClick={handleLogout}
+                    title="تسجيل الخروج"
+                    aria-label="تسجيل الخروج"
+                    className="text-lg cursor-pointer"
+                    >
                     <LogOut className="w-5 h-5 text-gray-500 hover:text-red-500" />
                     </button>
                 </div>
                 ) : (
-                <Link href={"/register"} aria-label="تسجيل الدخول" className="cursor-pointer">
+                <Link href="/register" aria-label="تسجيل الدخول" className="cursor-pointer">
                     <CiUser />
                 </Link>
-                )}
+)}
 
                 <button className="xl:hidden cursor-pointer" 
                     aria-label={open ? "إغلاق القائمة" : "فتح القائمة"}

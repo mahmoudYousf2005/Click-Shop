@@ -40,9 +40,9 @@ export const CartProvider = ({ children }) => {
       // description: "Sunday, December 3 at 9:00 AM",  
     })
       router.push("/register")
-      // return;
+      return;
     }
-    
+
 
     const existing = cart.find(
       (item) => item.product_id === product.id
@@ -78,6 +78,99 @@ export const CartProvider = ({ children }) => {
 
     fetchCart();
   };
+
+  
+    const checkout = async()=>{
+      if(!user){
+        toast.add({
+          title:"Please Log in to continue"
+        })
+          router.push("/")
+          return
+      }
+
+      if(cart.length === 0){
+        toast.add({
+          title:"Your cart is empty"   
+        })
+        return
+      }
+
+   const { data: order, error: orderError } = await supabase.from("orders")
+  .insert([{ user_id: user.id, total: cartTotal, status: "pending" ,shipping_address:"KLlk"  }])
+  .select()
+  .single()
+
+if (orderError) {
+  console.error("Error creating order:", orderError.message)
+  return
+}
+
+    const itemToInsert = cart.map((item)=>({
+      order_id: order.id,
+      product_id: item.product_id,
+      title: item.title,
+      price: item.price,
+      quantity: item.quantity,
+      category: item.category,
+    }))
+
+    const {error: itemsError} = await supabase.from("orderItems").insert(itemToInsert)
+    if(itemsError){
+      console.error("Error creating order items:", itemsError.message)
+      return
+    }
+
+    const {error:clearError} = await supabase.from("cart").delete().eq("user_id" , user.id)
+    if(clearError){
+      console.error("Error clearing cart:", clearError.message);
+    }
+
+  setCart([])
+  toast.add({ title: "Order placed successfully" });
+  return order
+  }
+
+  const buyNow = async (product, quantity = 1) => {
+  if (!user) {
+    toast.add({ title: "Please log in to continue" });
+    router.push("/register");
+    return;
+  }
+
+  const total = product.price * quantity;
+
+  const { data: order, error: orderError } = await supabase
+    .from("orders")
+    .insert([{ user_id: user.id, total, status: "pending" }])
+    .select()
+    .single();
+
+  if (orderError) {
+    console.error("Error creating order:", orderError.message);
+    return;
+  }
+
+  const { error: itemError } = await supabase.from("orderItems").insert([
+    {
+      order_id: order.id,
+      product_id: product.id,
+      title: product.title,
+      price: product.price,
+      quantity: quantity,
+      category: product.category,
+      thumbnail: product.thumbnail,
+    },
+  ]);
+
+  if (itemError) {
+    console.error("Error creating order item:", itemError.message);
+    return;
+  }
+
+  toast.add({ title: "Order placed successfully" });
+  return order;
+};
 
 
 const removeFromCart = async (id) => {
@@ -139,6 +232,8 @@ const removeFromCart = async (id) => {
         updateQuantity,
         cartTotal,
         cartCount,
+        checkout,
+        buyNow
       }}
     >
       {children}
