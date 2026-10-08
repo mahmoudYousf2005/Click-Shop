@@ -74,7 +74,7 @@ const CustomersProfiles = () => {
             </tr>
         ):(
             customers.map((item) => (
-                <tr key={item.id} className="text-left text-gray-600 border-b border-gray-100 text-sm w-full">
+                <tr key={item.id} className="text-left text-gray-600 border-b border-gray-100 text-sm w-full ">
                     <td className="py-3  text-xs text-gray-600 px-2">
                         {item.id.slice(0, 8)}...
                     </td>

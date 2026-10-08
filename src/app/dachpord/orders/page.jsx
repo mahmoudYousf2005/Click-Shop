@@ -40,7 +40,7 @@ const Page = () => {
         Manage and track all customer orders
       </p>
 
-      <div className="flex flex-col w-full md:flex-row gap-2 items-center mb-5">
+      <div className=" sticky top-8 flex flex-col w-full md:flex-row gap-2 items-center mb-5">
         {tabs.map((tab)=>(
           <button 
           key={tab}

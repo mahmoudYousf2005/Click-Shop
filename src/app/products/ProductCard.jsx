@@ -1,6 +1,3 @@
-
-
-
 "use client";
 
 import Link from "next/link";
@@ -9,15 +6,16 @@ import { Heart, ShoppingCart } from "lucide-react";
 import StarRating from "../components/StarRating";
 import { useWishlist } from "../wishlist/WishlistContext";
 import { useCart } from "../cart/ContextCart";
+import { useState } from "react";
 
 const ProductCard = ({ product }) => {
   const { isInWishlist, toggleWishlist } = useWishlist();
   const isFavorite = isInWishlist(product.id);
   const { addToCart } = useCart();
+  const [imgLoading, setImgLoading] = useState(true);
 
   return (
     <div className="group relative bg-white border border-gray-100 rounded-xl p-3 shadow-sm hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
-
       {/* Wishlist */}
       <button
         onClick={() => toggleWishlist(product)}
@@ -36,12 +34,18 @@ const ProductCard = ({ product }) => {
       <Link href={`/products/${product.id}`}>
         {/* Image */}
         <div className="relative aspect-square mb-3 bg-gray-50 rounded-lg overflow-hidden">
+          {/* Skeleton فوق الصورة لحد ما تتحمّل */}
+          {imgLoading && (
+            <div className="absolute inset-0 z-[1] animate-pulse bg-gray-200" />
+          )}
+
           <Image
             src={product.thumbnail}
             alt={product.title}
             fill
             sizes="(max-width: 768px) 50vw, 25vw"
-            className="object-cover group-hover:scale-105 transition duration-300"
+            onLoad={() => setImgLoading(false)}
+            className="object-cover group-hover:scale-105 transition-all duration-300 "
           />
         </div>
 
@@ -62,9 +66,7 @@ const ProductCard = ({ product }) => {
       </div>
 
       {/* Price */}
-      <p className="font-bold text-lg text-gray-900 mt-2">
-        ${product.price}
-      </p>
+      <p className="font-bold text-lg text-gray-900 mt-2">${product.price}</p>
 
       {/* Button */}
       <button

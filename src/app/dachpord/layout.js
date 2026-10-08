@@ -11,6 +11,7 @@ export default function RootLayout({ children }) {
   const pathName = usePathname();
   const [authorized, setAuthorized] = useState(false);
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [nameStore , setNameStore] = useState("Click Shop")
 
   useEffect(() => {
     let cancelled = false;
@@ -36,6 +37,19 @@ export default function RootLayout({ children }) {
     checkAdmin();
     return () => { cancelled = true; };
   }, [router]);
+// Storte name
+   useEffect(()=>{
+          const getNameStore = async ()=>{
+              const {data , error} = await supabase.from("setting").select("*").eq("id" , 1).single()
+              if(error){
+                  console.error("Error get name store" , error.message)
+                  return
+              }
+              setNameStore(data)
+          }
+          getNameStore()
+      },[])
+      // const [first, ...rest] = (nameStore?.store_name || "").split(" ");
 
   const linksNav = [
     { name: "Overview", href: "/dachpord", icons: LayoutDashboard },
@@ -69,14 +83,18 @@ export default function RootLayout({ children }) {
           ${sidebarOpen ? "translate-x-0" : "-translate-x-full"} md:translate-x-0`}
       >
         <div className="flex items-center justify-between gap-4">
-          <div className="flex items-center gap-4">
-            <div className="w-8 h-8 bg-amber-500 text-white rounded-lg flex items-center justify-center">
-              <span>C</span>
-            </div>
-            <div>
-              <Link href={"/"} className="font-bold">Click Shop</Link>
-              <h3 className="text-sm text-gray-500">Dashboard</h3>
-            </div>
+          <div>
+            <div className="flex items-center gap-2.5">
+              <div className="w-9 h-9 rounded-xl bg-orange-500 text-white flex items-center justify-center font-bold text-lg">
+                {nameStore?.store_name?.[0]}
+              </div>
+              <Link href={"/"} 
+                className="text-xl font-extrabold tracking-tight text-gray-900 dark:text-white">
+                {nameStore?.store_name}
+              </Link>
+              
+            </div>  
+            <h2 className="mt-1.5 text-gray-400 text-sm">Dashboard</h2>
           </div>
           <button className="md:hidden" onClick={() => setSidebarOpen(false)}>
             <X className="w-5 h-5" />

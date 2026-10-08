@@ -9,19 +9,27 @@ import { useState , useEffect } from "react";
 const Page = () => {
   
   const { cart, cartTotal } = useCart();
-  
-  const getProductsCart = async ()=>{
-    const {error , data} = await supabase.from("cart").select("*")
-    if(error){
-      console.error("Error get products cart" , error.message)
-      return
-    }
-    setProducts(data)
-  }
+   const [settings, setSettings] = useState({
+    shipping_rate: 10,
+    free_shipping_threshold: 100,
+  });
 
-  useEffect(()=>{
-    getProductsCart()
-  },[])
+   useEffect(() => {
+    const fetchSettings = async () => {
+      const { data, error } = await supabase
+        .from("setting")
+        .select("shipping_rate, free_shipping_threshold")
+        .eq("id", 1)
+        .single();
+
+      if (error) {
+        console.error("Error fetching settings:", error.message);
+        return;
+      }
+      setSettings(data);
+    };
+    fetchSettings();
+  }, []);
 
   if (cart.length === 0) {
     return (
@@ -38,7 +46,8 @@ const Page = () => {
     );
   }
 
-  const shipping = cartTotal > 100 ? 0 : 10;
+  const shipping =
+    cartTotal > settings.free_shipping_threshold ? 0 : settings.shipping_rate;
   const total = cartTotal + shipping;
 
   return (
@@ -80,8 +89,13 @@ const Page = () => {
             </div>
           </div>
 
-          <button className="w-full bg-orange-500 hover:bg-orange-600 text-white py-2.5 rounded-md font-bold text-lg mt-6 cursor-pointer">
+          <button className="w-full bg-orange-500 hover:bg-orange-600 text-white py-2.5
+           rounded-md font-bold text-lg mt-6 cursor-pointer">
              Checkout
+          </button>
+          <button className="w-full bg-gray-300 hover:bg-gray-400  py-2.5
+           rounded-md font-bold text-lg mt-6 cursor-pointer">
+             Buy Now
           </button>
         </div>
       </div>

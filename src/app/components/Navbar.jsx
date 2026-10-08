@@ -28,6 +28,7 @@ const Navbar = () => {
     const [checkAdmin, setChecekAdmin] = useState(null);
     const [value , setValue] = useState(searchParams.get("search") || "")
     const [mounted, setMounted] = useState(false);
+    const [nameStore , setNameStore] = useState("Click Shop")
     // nav Links
     const navLinks = [
         {name:"Home" , href:"/"},
@@ -47,6 +48,7 @@ const Navbar = () => {
         }
     },[])
 
+// log out
   const handleLogout = async () => {
     const {error} = await supabase.auth.signOut()
     if(error){
@@ -55,7 +57,7 @@ const Navbar = () => {
     }
   };
 
- 
+//  ظهور ايقونه Dashboard
   useEffect(()=>{
     const checkUser = async ()=>{
     if(!user) return
@@ -73,36 +75,53 @@ const Navbar = () => {
   checkUser()
   },[user])
 
-//  const [value, setValue] = useState(searchParams.get("search") || "");
 
-useEffect(() => {
-  const t = setTimeout(() => {
-    const current = searchParams.get("search") || "";
-    if (current === value) return;
+// Search
+    useEffect(() => {
+    const t = setTimeout(() => {
+        const current = searchParams.get("search") || "";
+        if (current === value) return;
 
-    const params = new URLSearchParams(searchParams.toString());
-    if (value) params.set("search", value);
-    else params.delete("search");
+        const params = new URLSearchParams(searchParams.toString());
+        if (value) params.set("search", value);
+        else params.delete("search");
 
-    router.replace(`/products?${params.toString()}`);
-  }, 300);
+        router.replace(`/products?${params.toString()}`);
+    }, 300);
 
-  return () => clearTimeout(t);
+    return () => clearTimeout(t);
 }, [value]);
+
+const handleSearch = (e) => setValue(e.target.value);
+
 
 useEffect(() => {
   setMounted(true);
 }, []);
 
-const handleSearch = (e) => setValue(e.target.value);
-   
+// Store name
+    useEffect(()=>{
+        const getNameStore = async ()=>{
+            const {data , error} = await supabase.from("setting").select("*").eq("id" , 1).single()
+            if(error){
+                console.error("Error get name store" , error.message)
+                return
+            }
+            setNameStore(data)
+        }
+        getNameStore()
+    },[])
+    const [first, ...rest] = (nameStore?.store_name || "").split(" ");
   return (
     <div className={ `sticky z-40 top-0  mx-auto flex items-center justify-between py-4 container px-10 
         ${scrolled ? "bg-white dark:bg-gray-800  border-2 border-gray-300 dark:border-gray-600" : "bg-transparent"}
     `} >
         {/* logo */}
         <div className="text-lg font-semibold">
-            <h2>Click <span className="text-orange-400">Shop</span></h2>
+            <h2 className="text-2xl font-extrabold tracking-tight text-gray-900 dark:text-white">
+                {first}{" "}
+                 <span className="text-orange-500">{rest.join(" ")}</span>
+            </h2>           
         </div>
         {/*== logo ==*/}
 

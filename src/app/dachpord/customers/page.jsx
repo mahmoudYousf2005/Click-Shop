@@ -64,15 +64,15 @@ const Page = () => {
             <CartsCustomers label="Avg. Spend / Customer" value={stats.AvgSpendr.toFixed(2)}/>
         </div>
         )}
-        <table className="w-full" >
+        <table className="w-full  bg-white rounded-xl border border-gray-50 " >
            
-                <thead className=" text-xs">
-                    <tr className="text-left text-gray-400 border-b border-gray-100 text-sm">
-                        <th className="pb-2 font-medium">Customer</th>
-                        <th className="pb-2 font-medium">Orders</th>
-                        <th className="pb-2 font-medium">Total Spent</th>
-                        <th className="pb-2 font-medium">Joined</th>
-                        <th className="pb-2 font-medium">Status</th>
+                <thead className=" text-xs ">
+                    <tr className="text-left text-gray-400 border-b border-gray-100 text-sm ">
+                        <th className="py-3 px-2 font-medium">Customer</th>
+                        <th className="py-3 px-2 font-medium">Orders</th>
+                        <th className="py-3 px-2 font-medium">Total Spent</th>
+                        <th className="py-3 px-2 font-medium">Joined</th>
+                        <th className="py-3 px-2 font-medium">Status</th>
                     </tr>
                 </thead>
                 <tbody className="">
