@@ -6,7 +6,7 @@ export const dynamic = "force-dynamic";
 const Category = async () => {
 
    
-    const {data , error} = await  supabase.from("products").select("*")
+    const {data , error} = await  supabase.from("products").select("*").eq("is_active" , true)
      if(error){
         console.error("Error Select Data " , error.message)
         return <p className="text-center text-red-500 py-10">حصل خطأ في تحميل الفئات</p>
@@ -62,10 +62,8 @@ const Category = async () => {
                         />
                     </div>
                     <h1 className="text-lg font-bold">{item?.category}</h1>
-                    {/* {categoriesCount.map((index,item)=>(
-                        <h1 key={index} className="text-gray-500">{item.count} Products</h1>
-                    ))} */}
-                    <h1>{categoriesCount[index]}</h1>
+                    
+                    <h1>{categoriesCount[index]} products</h1>
                     <Link href={"/products"}>
                         <div className={`flex items-center justify-center gap-2 mt-2  cursor-pointer font-semibold text-lg ${colors[index % colors.length].text}`}>
                             <h1>Shop Now </h1>

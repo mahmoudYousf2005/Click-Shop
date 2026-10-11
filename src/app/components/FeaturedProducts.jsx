@@ -7,7 +7,7 @@ import FeaturedProductActions from "./FeaturedProductActions";
 
 // 🟢 السيرفر بيجيب البيانات ويفلترها، مش المتصفح
 async function getFeaturedProducts() {
-  const { data, error } = await supabase.from("products").select("*");
+  const { data, error } = await supabase.from("products").select("*").eq("is_active" , true);
   if (error) {
     console.error("Error Select Data", error.message);
     return <p className="text-center text-red-500 py-10">حصل خطأ في تحميل الفئات</p>
@@ -18,6 +18,7 @@ async function getFeaturedProducts() {
     data.filter((prod) => prod.category === category).slice(1, 2)
   );
 }
+
 
 const FeaturedProducts = async () => {
   const products = await getFeaturedProducts();
@@ -64,7 +65,8 @@ const FeaturedProducts = async () => {
 
       <div className="text-right mt-8 px-8 flex justify-end">
         <Link href={"/products"}>
-          <button className="flex items-center gap-1 border border-orange-300 text-orange-500 font-bold px-2 py-1 rounded-lg cursor-pointer">
+          <button className="flex items-center gap-1 border border-orange-300 text-orange-500 
+          font-bold px-2 py-1 rounded-lg cursor-pointer">
             View All Products <FaLongArrowAltRight />
           </button>
         </Link>

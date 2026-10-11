@@ -8,6 +8,13 @@ const FeaturedProductActions = ({ item }) => {
   const { addToCart } = useCart();
   const isFavorite = isInWishlist(item.id);
 
+ const discount = Number(item.discountPercentage) || 0;
+  const hasDiscount = discount > 0;
+  const oldPrice = hasDiscount
+  ? item.price / (1 - discount / 100)
+  : null;
+
+
   return (
     <>
       <button
@@ -26,7 +33,7 @@ const FeaturedProductActions = ({ item }) => {
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">
           <h2 className="text-orange-500 font-bold">${item.price}</h2>
-          <del className="text-xs">${item.discountPercentage}</del>
+          <del className="text-xs">${oldPrice.toFixed(2)}</del>
         </div>
         <button
           className="font-bold text-xs py-1.5 px-2 border border-orange-500 text-orange-500

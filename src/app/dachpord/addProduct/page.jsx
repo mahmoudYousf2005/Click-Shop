@@ -1,8 +1,13 @@
 "use client"
 import { supabase } from "@/lib/supabase"
-import { useState } from "react"
-const Page = () => {
-     
+import { useState , useEffect , Suspense} from "react"
+import { useRouter  , useSearchParams} from "next/navigation"
+import { Toast } from "@base-ui/react"
+const ProductFormPage  = () => {
+    const router = useRouter()
+    const searchParams = useSearchParams()
+    const editId = searchParams.get("edit")
+    const isEdit = Boolean(editId)
     const [data , setData] = useState({
         title:"",
         description:"",
@@ -24,37 +29,69 @@ const Page = () => {
         minimumOrderQuantity:"",
        
     })
+    const [loading , setLoading] = useState(isEdit)
     const [image, setImage] = useState(null);
-    const handleSubmet = async (e)=>{
-        e.preventDefault() 
-         const { data: { session } } = await supabase.auth.getSession();
-        console.log("Session:", session)
-        if(!image){
-            console.log("add img")
-            return
-        }
 
-        const fileName = `${Date.now()}-${image.name}`
-        // رفع الصورة
-        const {error:uploadError} = await supabase.storage.from("Products").upload(fileName , image)
-         if(uploadError){
-            console.error("Error upload image: " , uploadError.message)
-            return
-        }
 
-          // الحصول على رابط الصورة
-        const { data: imageData } = supabase.storage
-        .from("Products")
-        .getPublicUrl(fileName);
+    useEffect(()=>{
+      if(!isEdit) return
+      const getProduct = async ()=>{
 
-        const imageUrl = imageData.publicUrl;
-
-        const {error} = await supabase.from("products").insert({...data , thumbnail: imageUrl})
+        const {data: product , error} = await supabase.from("products")
+        .select("*")
+        .eq("id" , editId).single()
         if(error){
-          console.error("error Add data " , error.message)
+          console.error("Error get product", error.message)
+        }else{
+          setData((prev)=> ({...prev , ...product}))
+        }
+        setLoading(false)
+      }
+      getProduct()
+    },[editId , isEdit])
+
+  
+    const handleSubmet = async (e) => {
+      e.preventDefault()
+      if(!isEdit && !image){
+        Toast({title:"Add Img"})
+        return
+      }
+
+      let imageUrl = data.thumbnail
+
+      if(image){
+        const fileName = `${Date.now()}-${image.name}`
+        const {error:uploadError} = await supabase.storage.from("products").upload(fileName , image)
+        if(uploadError){
+          console.error("Error upload image: ", uploadError.message)
           return
         }
-        setData({
+        const {data: imageData} = await supabase.storage.from("products").getPublicUrl(fileName)
+        imageUrl = imageData.publicUrl
+      }
+      if(isEdit){
+        const {id , created_at , is_active , ... values} = data
+      
+        const { data: updated, error } = await supabase
+        .from("products")
+        .update({ ...values, thumbnail: imageUrl })
+        .eq("id", editId)
+        .select()
+        if (error || !updated?.length) {
+          console.error("Error update data", error?.message)
+          return
+        }  
+        router.push("/dachpord/productsDashboard")
+        return 
+      }
+      const {error} = await supabase.from("products")
+      .insert({ ...data, thumbnail: imageUrl })
+      if(error){
+        console.error("error Add data ", error.message)
+        return
+      }
+       setData({
         title:"",
         description:"",
         category:"",
@@ -73,14 +110,18 @@ const Page = () => {
         returnPolicy:"",
         availabilityStatus:"",
         minimumOrderQuantity:"",
-    })
-    setImage(null)
+        })
+        setImage(null)
     }
 
+
+if (loading) return <div className="p-6 animate-pulse">جاري التحميل...</div>
   return (
     <div className="w-10/12 mx-auto">
-
-      <form onSubmit={handleSubmet} className="mb-10 p-10 border  grid grid-cols-1 md:grid-cols-3 md:gap-10">       
+      <h1 className="m-5 font-bold text-2xl">{isEdit ? "EDIT PRODUCT" : "ADD PRODUCT"}</h1>
+      <form
+       onSubmit={handleSubmet}
+       className="mb-10 p-10 border  grid grid-cols-1 md:grid-cols-3 md:gap-10">       
         <input
         type="text" 
         className="block w-full py-2 px-4 rounded-xl border mb-4 outline-none"
@@ -196,8 +237,9 @@ const Page = () => {
         placeholder="URLIMAGES"
         onChange={(e)=> setImage(e.target.files[0])}
         />
-        <button className="py-3 px-4 rounded-2xl w-full border cursor-pointer bg-green-400 hover:bg-green-600">
-      ADD</button>
+        <button type="submet"
+        className="py-3 px-4 rounded-2xl w-full border cursor-pointer bg-green-400 hover:bg-green-600">
+      {isEdit ? "Save Changes" : "Add Product"}</button>
       </form>
       
    
@@ -206,4 +248,10 @@ const Page = () => {
   )
 }
 
-export default Page
+export default function Page() {
+  return (
+    <Suspense fallback={<div className="p-6">جاري التحميل...</div>}>
+      <ProductFormPage />
+    </Suspense>
+  )
+}

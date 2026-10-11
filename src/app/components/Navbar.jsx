@@ -33,9 +33,9 @@ const Navbar = () => {
     const navLinks = [
         {name:"Home" , href:"/"},
         {name:"Products" , href:"/products"},
-        {name:"categories" , href:"/categories"},
+        {name:"Categories" , href:"/categories"},
         {name:"About" , href:"/about"},
-        {name:"contact" , href:"/contact"},
+        {name:"Contact" , href:"/contact"},
     ]
     // Scroll Navbar
     useEffect(()=>{

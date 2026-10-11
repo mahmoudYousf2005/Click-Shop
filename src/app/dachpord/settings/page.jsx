@@ -81,10 +81,6 @@ const Page = () => {
 
 
 
-
-
-
-
   const inputClass =
     "w-full border border-gray-200 bg-gray-50 rounded-lg px-3 py-2.5 text-sm outline-none focus:border-orange-400";
 

@@ -7,16 +7,16 @@ import { supabase } from "@/lib/supabase";
 import ProductCard from "./ProductCard";
 
 const ProductsList = async ({ searchParams }) => {
-  const { category, search, min, max } = searchParams || {};
+  const { category, search, min, max } = (await searchParams )|| {};
 
-  let query = supabase.from("products").select("*");
+  let query = supabase.from("products").select("*", { count: "exact" }).eq("is_active", true);
 
   if (category) query = query.eq("category", category);
   if (search) query = query.ilike("title", `%${search}%`);
   if (min) query = query.gte("price", Number(min));
   if (max) query = query.lte("price", Number(max));
 
-  const { data, error } = await query;
+  const { data, error , count: totalCount } = await query;
 
   if (error) {
     console.error("Error:", error.message);
@@ -26,10 +26,6 @@ const ProductsList = async ({ searchParams }) => {
       </p>
     );
   }
-
-  const { count: totalCount } = await supabase
-    .from("products")
-    .select("*", { count: "exact", head: true });
 
   if (!data.length) {
     return (
